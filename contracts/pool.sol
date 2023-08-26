@@ -31,7 +31,7 @@ contract POOL {
         reserve1 = _reserve1;
     }
 
-    function swap(address _tokenIn, uint _amountIn) external returns (uint amountOut) {
+    function swap(address _tokenIn, address _reciever, uint _amountIn) external returns (uint amountOut) {
         require(
             _tokenIn == address(token0) || _tokenIn == address(token1),
             "invalid token"
@@ -48,7 +48,7 @@ contract POOL {
         uint amountInWithFee = (_amountIn * 997) / 1000;
         amountOut = (reserveOut * amountInWithFee) / (reserveIn + amountInWithFee);
 
-        tokenOut.transfer(msg.sender, amountOut);
+        tokenOut.transfer(_reciever, amountOut);
 
         _update(token0.balanceOf(address(this)), token1.balanceOf(address(this)));
     }
